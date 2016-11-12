@@ -125,10 +125,61 @@ It is usually don't via ```start.sh```:
 
 It works like the [jar deployment](#jar-deployment-env-and-conf)
 
+# docker deployment
+
+Docker is the world’s leading software containerization platform. You can easily run you Jooby app as a docker container.
+
+## build and package
+
+Add the following to the pom.xml under plugins:
+
+```
+<plugin>
+    <groupId>com.spotify</groupId>
+    <artifactId>docker-maven-plugin</artifactId>
+    <version>0.4.13</version>
+    <configuration>
+        <imageName>my-jooby-image</imageName>
+        <baseImage>openjdk:jre-alpine</baseImage>
+        <entryPoint>["java", "-jar", "/${project.build.finalName}.jar"]</entryPoint>
+        <exposes>
+          <expose>8080</expose>
+        </exposes>
+        <resources>
+            <resource>
+                <targetPath>/</targetPath>
+                <directory>${project.build.directory}</directory>
+                <include>${project.build.finalName}.jar</include>
+            </resource>
+        </resources>
+    </configuration>
+</plugin>
+ ```
+
+In order to create the **docker image** go to your project home, open a terminal and run:
+
+```
+mvn clean docker:build
+```
+
+Once it finish, the docker image will be build and tagged as ```my-jooby-image```.
+
+## run / start
+
+You can now run the image with:
+
+```bash
+docker run -p 80:8080 my-jobby-image
+```
+
+This will expose the container port 8080 to he host port 80.
+
 # conclusion
 
 **Jar deployment** makes perfect sense for PaaS like Heroku, AppEngine, etc...
 
 **Zip deployment** give you more control for starting and stopping but also control the application log at runtime.
+
+**Docker deployment** let you easily build images that can run anywhere with all dependencies installed.
 
 Happy coding!!
