@@ -127,13 +127,13 @@ It works like the [jar deployment](#jar-deployment-env-and-conf)
 
 # docker deployment
 
-Docker is the world’s leading software containerization platform. You can easily run you Jooby app as a docker container.
+Docker is the world’s leading software containerization platform. You can easily run you Jooby app as a docker container. You need to have the docker engine [installed](https://docs.docker.com/engine/installation/).
 
 ## build and package
 
 Add the following to the pom.xml under plugins:
 
-```
+```xml
 <plugin>
     <groupId>com.spotify</groupId>
     <artifactId>docker-maven-plugin</artifactId>
@@ -158,7 +158,7 @@ Add the following to the pom.xml under plugins:
 
 In order to create the **docker image** go to your project home, open a terminal and run:
 
-```
+```bash
 mvn clean docker:build
 ```
 
